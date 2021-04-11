@@ -28,13 +28,9 @@ Module.register("MMM-SensorTemps", {
 				header: this.config.sensors[i].name
 			};
 		};
-		this.queryURL = this.config.endpoint;
-		for (i = 0; i < this.sensors.length; i++){
-			if (i = 0){
-				this.queryURL = this.queryURL + "?filter=" + this.sensors[i].mac;
-			} else {
-				this.queryURL = this.queryURL + "&filter=" + this.sensors[i].mac;
-			}
+		this.queryURL = this.config.endpoint + "?";
+		for (var sensor in this.sensors){
+			this.queryURL = this.queryURL + "filter=" + this.sensors[sensor].mac;
 		}
 		this.scheduleUpdate(this.config.initialLoadDelay);
 	},
