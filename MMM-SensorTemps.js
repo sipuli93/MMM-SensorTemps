@@ -1,13 +1,13 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: MMM-IndoorAndSaunaTemp
+ * Module: MMM-sensorTemps
  *
  * By sipuli93
  * MIT Licensed.
  */
 
-Module.register("MMM-IndoorAndSaunaTemp", {
+Module.register("MMM-sensorTemps", {
 	defaults: {
 		saunaTempLimit: 35,
 		saunaReadyLimit: 60,
