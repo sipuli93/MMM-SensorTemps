@@ -19,7 +19,7 @@ var config = {
                 sensors: [
                     {
                         mac: "<mac address>",
-                        name: "<sensor name>
+                        name: "<sensor name>"
                     },
                 ]
              }
