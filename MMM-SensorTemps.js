@@ -50,8 +50,8 @@ Module.register("MMM-SensorTemps", {
 			var sensorWrapper = document.createElement("DIV");
 			var sensorHeader = document.createElement("HEADER");
 			var sensorTempSpan = document.createElement("SPAN");
-			var sensorHeaderText = document.createTextNode(this.sensor[sensor].header);
-			var sensorTemp = document.createTextNode(this.sensor[sensor].temp.toFixed(1) + degreeLabel + "C" + " | " + this.sensor[sensor].humidity.toFixed(0) + "%");
+			var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
+			var sensorTemp = document.createTextNode(this.sensors[sensor].temp.toFixed(1) + degreeLabel + "C" + " | " + this.sensors[sensor].humidity.toFixed(0) + "%");
 			sensorTempSpan.className = "bright regular";
 			sensorTempSpan.appendChild(sensorTemp);
 			sensorHeader.appendChild(sensorHeaderText);
@@ -65,7 +65,7 @@ Module.register("MMM-SensorTemps", {
 	// Load css files
 	getStyles: function () {
 		return [
-			"MMM-IndoorAndSaunaTemp.css",
+			"MMM-SensorTemps.css",
 		];
 	},
 	
