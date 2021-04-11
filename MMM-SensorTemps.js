@@ -1,13 +1,13 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: MMM-sensorTemps
+ * Module: MMM-SensorTemps
  *
  * By sipuli93
  * MIT Licensed.
  */
 
-Module.register("MMM-sensorTemps", {
+Module.register("MMM-SensorTemps", {
 	defaults: {
 		initialLoadDelay: 0,
 		retryDelay: 10 * 1000, //10sec
