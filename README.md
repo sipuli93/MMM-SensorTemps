@@ -12,11 +12,17 @@ To use this module, add the following configuration block to the modules array i
 var config = {
     modules: [
         {
-             module: "MMM-IndoorTemps",
+             module: "MMM-sensorTemps",
              position: "bottom_center",
              config: {
-                indoorSensorMAC: "<Sensor mac address in capital>",
-                saunaSensorMAC: "<Sensor mac address in capita>"
+                endpoint: "http://<ip>:<port>",
+                sensors: [
+                    {
+                        mac: "<mac address>",
+                        name: "<sensor name>
+                    },
+                ]
+             }
         }
     ]
 }
@@ -26,5 +32,5 @@ var config = {
 
 | Option           | Description
 |----------------- |-----------
-| `indoorSensorMAC`        | *Required* Mac address of the sensor
-| `saunaSensorHeader`        | *Optional* Header for sauna <br>Default `sauna`
+| `endpoint`        | *Required* Full url pointing to sensor in rest api. Example `http://<ip>:<port>`
+| `sensors`        | *Required* List of sensors. Mac address and name.
