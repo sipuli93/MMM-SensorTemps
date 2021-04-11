@@ -9,10 +9,6 @@
 
 Module.register("MMM-sensorTemps", {
 	defaults: {
-		saunaTempLimit: 35,
-		saunaReadyLimit: 60,
-		indoorSensorHeader: "Indoor",
-		saunaSensorHeader: "Sauna",
 		initialLoadDelay: 0,
 		retryDelay: 10 * 1000, //10sec
 		updateInterval: 60 * 1000, //1min
