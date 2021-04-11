@@ -30,7 +30,7 @@ Module.register("MMM-SensorTemps", {
 		};
 		this.queryURL = this.config.endpoint + "?";
 		for (var sensor in this.sensors){
-			this.queryURL = this.queryURL + "filter=" + this.sensors[sensor].mac;
+			this.queryURL = this.queryURL + "filter=" + sensor + "&";
 		}
 		this.scheduleUpdate(this.config.initialLoadDelay);
 	},
@@ -47,7 +47,7 @@ Module.register("MMM-SensorTemps", {
 			var sensorHeader = document.createElement("HEADER");
 			var sensorTempSpan = document.createElement("SPAN");
 			var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
-			var sensorTemp = document.createTextNode(this.sensors[sensor].temp.toFixed(1) + degreeLabel + "C" + " | " + this.sensors[sensor].humidity.toFixed(0) + "%");
+			var sensorTemp = document.createTextNode(this.sensors[sensor].temp.toFixed(1) + degreeLabel + "C" + " " + this.sensors[sensor].humidity.toFixed(0) + "%");
 			sensorTempSpan.className = "bright regular";
 			sensorTempSpan.appendChild(sensorTemp);
 			sensorHeader.appendChild(sensorHeaderText);
