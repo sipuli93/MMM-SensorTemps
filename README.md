@@ -12,7 +12,7 @@ To use this module, add the following configuration block to the modules array i
 var config = {
     modules: [
         {
-             module: "MMM-sensorTemps",
+             module: "MMM-SensorTemps",
              position: "bottom_center",
              config: {
                 endpoint: "http://<ip>:<port>",
