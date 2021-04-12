@@ -25,7 +25,8 @@ Module.register("MMM-SensorTemps", {
 			this.sensors[this.config.sensors[i].mac] = {
 				temp: NaN,
 				humidity: NaN,
-				header: this.config.sensors[i].name
+				header: this.config.sensors[i].name,
+				oudoorNotification: typeof this.config.sensors[i].sendAsOutdoorNotification !== 'undefined' ?  this.config.sensors[i].sendAsOutdoorNotification : false
 			};
 		};
 		this.queryURL = this.config.ruuvitagRestGatewayAddr + "/ruuvitags?";
@@ -45,17 +46,22 @@ Module.register("MMM-SensorTemps", {
 		var degreeLabel = "°";
 		
 		for (var sensor in this.sensors){
-			var sensorWrapper = document.createElement("DIV");
-			var sensorHeader = document.createElement("HEADER");
-			var sensorTempSpan = document.createElement("SPAN");
-			var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
-			var sensorTemp = document.createTextNode(this.sensors[sensor].temp.toFixed(1) + degreeLabel + "C" + " " + this.sensors[sensor].humidity.toFixed(0) + "%");
-			sensorTempSpan.className = "bright regular";
-			sensorTempSpan.appendChild(sensorTemp);
-			sensorHeader.appendChild(sensorHeaderText);
-			sensorWrapper.appendChild(sensorHeader);
-			sensorWrapper.appendChild(sensorTempSpan);
-			wrapper.appendChild(sensorWrapper);
+			if (! this.sensors[sensor].oudoorNotification){
+				var sensorWrapper = document.createElement("DIV");
+				var sensorHeader = document.createElement("HEADER");
+				var sensorTempSpan = document.createElement("SPAN");
+				var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
+				var sensorTemp = document.createTextNode(this.sensors[sensor].temp.toFixed(1) + degreeLabel + "C" + " " + this.sensors[sensor].humidity.toFixed(0) + "%");
+				sensorTempSpan.className = "bright regular";
+				sensorTempSpan.appendChild(sensorTemp);
+				sensorHeader.appendChild(sensorHeaderText);
+				sensorWrapper.appendChild(sensorHeader);
+				sensorWrapper.appendChild(sensorTempSpan);
+				wrapper.appendChild(sensorWrapper);
+			} else {
+				this.sendNotification("OUTDOOR_TEMPERATURE", this.sensors[sensor].temperature;
+				this.sendNotification("OUTDOOR_HUMIDITY", this.sensors[sensor].humidity;
+			}
 		}
 		return wrapper;
 	},

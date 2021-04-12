@@ -19,7 +19,8 @@ var config = {
                 sensors: [
                     {
                         mac: "<mac address>",
-                        name: "<sensor name>"
+                        name: "<sensor name>",
+			sendAsOutdoorNotification: false
                     },
                 ]
              }
@@ -32,5 +33,6 @@ var config = {
 
 | Option           | Description
 |----------------- |-----------
-| `ruuvitagRestGatewayAddr`        | *Required* Full url pointing to sensor in rest api. Example `http://<ip>:<port>`
-| `sensors`        | *Required* List of sensors. Mac address and name.
+| `ruuvitagRestGatewayAddr` | *Required* Full url pointing to sensor in rest api. Example `http://<ip>:<port>`
+| `sensors` | *Required* List of sensors. Mac address and name.
+| `sendAsOutdoorNotification` | *Optional* false is default. When set to true, sensors temperature and humidity will be sended via notification to other modules (OUTDOOR_TEMPERATURE and OUTROOD_HUMIDITY)
