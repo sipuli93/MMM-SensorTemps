@@ -9,10 +9,10 @@
 
 Module.register("MMM-SensorTemps", {
 	defaults: {
-		initialLoadDelay: 0,
+		initialLoadDelay: 1000,
 		retryDelay: 10 * 1000, //10sec
 		updateInterval: 60 * 1000, //1min
-		animationSpeed: 1000
+		animationSpeed: 400
 	},
 
 	requiresVersion: "2.1.0", // Required version of MagicMirror
@@ -23,17 +23,17 @@ Module.register("MMM-SensorTemps", {
 		this.sensors = {};
 		for (i = 0; i < this.config.sensors.length; i++) {
 			this.sensors[this.config.sensors[i].mac] = {
-				temp: NaN,
+				temperature: NaN,
 				humidity: NaN,
 				header: this.config.sensors[i].name,
 				oudoorNotification: typeof this.config.sensors[i].sendAsOutdoorNotification !== 'undefined' ?  this.config.sensors[i].sendAsOutdoorNotification : false
 			};
 		};
 		this.queryURL = this.config.ruuvitagRestGatewayAddr + "/ruuvitags?";
-		var iterations = this.sensors.length;
+		var iterations = Object.keys(this.sensors).length;
 		for (var sensor in this.sensors){
 			this.queryURL = this.queryURL + "filter=" + sensor;
-			if (--iterations){ this.queryURL + "&";	}
+			if ( --iterations){ this.queryURL = this.queryURL + "&"; }
 		}
 		this.scheduleUpdate(this.config.initialLoadDelay);
 	},
@@ -46,21 +46,23 @@ Module.register("MMM-SensorTemps", {
 		var degreeLabel = "°";
 		
 		for (var sensor in this.sensors){
-			if (! this.sensors[sensor].oudoorNotification){
-				var sensorWrapper = document.createElement("DIV");
-				var sensorHeader = document.createElement("HEADER");
-				var sensorTempSpan = document.createElement("SPAN");
-				var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
-				var sensorTemp = document.createTextNode(this.sensors[sensor].temp.toFixed(1) + degreeLabel + "C" + " " + this.sensors[sensor].humidity.toFixed(0) + "%");
-				sensorTempSpan.className = "bright regular";
-				sensorTempSpan.appendChild(sensorTemp);
-				sensorHeader.appendChild(sensorHeaderText);
-				sensorWrapper.appendChild(sensorHeader);
-				sensorWrapper.appendChild(sensorTempSpan);
-				wrapper.appendChild(sensorWrapper);
-			} else {
-				this.sendNotification("OUTDOOR_TEMPERATURE", this.sensors[sensor].temperature;
-				this.sendNotification("OUTDOOR_HUMIDITY", this.sensors[sensor].humidity;
+			if (! Object.is(this.sensors[sensor].temperature,NaN)){
+				if (! this.sensors[sensor].oudoorNotification){
+					var sensorWrapper = document.createElement("DIV");
+					var sensorHeader = document.createElement("HEADER");
+					var sensorTempSpan = document.createElement("SPAN");
+					var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
+					var sensorTemp = document.createTextNode(this.sensors[sensor].temperature.toFixed(1) + degreeLabel + "C" + " " + this.sensors[sensor].humidity.toFixed(0) + "%");
+					sensorTempSpan.className = "bright regular";
+					sensorTempSpan.appendChild(sensorTemp);
+					sensorHeader.appendChild(sensorHeaderText);
+					sensorWrapper.appendChild(sensorHeader);
+					sensorWrapper.appendChild(sensorTempSpan);
+					wrapper.appendChild(sensorWrapper);
+				} else {
+					this.sendNotification("OUTDOOR_TEMPERATURE", this.sensors[sensor].temperature);
+					this.sendNotification("OUTDOOR_HUMIDITY", this.sensors[sensor].humidity);
+				}
 			}
 		}
 		return wrapper;
@@ -103,7 +105,7 @@ Module.register("MMM-SensorTemps", {
 	// Handle received data and update dom
 	processSensorData: function (data) {
 		for (i = 0; i < data.ruuvitags.length; i++){
-			this.sensors[data.ruuvitags[i].mac].temp = data.ruuvitags[i].temperature;
+			this.sensors[data.ruuvitags[i].mac].temperature = data.ruuvitags[i].temperature;
 			this.sensors[data.ruuvitags[i].mac].humidity = data.ruuvitags[i].humidity;
 		}
 		this.loaded = true;
@@ -122,4 +124,11 @@ Module.register("MMM-SensorTemps", {
 			self.updateSensors();
 		}, nextLoad);
 	},
+	
+	// Round temperature
+        roundValue: function (temperature) {
+                var decimals = this.config.roundTemp ? 0 : 1;
+                var roundValue = parseFloat(temperature).toFixed(decimals);
+                return roundValue === "-0" ? 0 : roundValue;
+        }
 });
