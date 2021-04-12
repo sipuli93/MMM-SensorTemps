@@ -28,9 +28,11 @@ Module.register("MMM-SensorTemps", {
 				header: this.config.sensors[i].name
 			};
 		};
-		this.queryURL = this.config.endpoint + "?";
+		this.queryURL = this.config.ruuvitagRestGatewayAddr + "/ruuvitags?";
+		var iterations = this.sensors.length;
 		for (var sensor in this.sensors){
-			this.queryURL = this.queryURL + "filter=" + sensor + "&";
+			this.queryURL = this.queryURL + "filter=" + sensor;
+			if (--iterations){ this.queryURL + "&";	}
 		}
 		this.scheduleUpdate(this.config.initialLoadDelay);
 	},
@@ -42,7 +44,7 @@ Module.register("MMM-SensorTemps", {
 		wrapper.className = "large light sidebyside";
 		var degreeLabel = "°";
 		
-		for (var sensor in this.sensors){	
+		for (var sensor in this.sensors){
 			var sensorWrapper = document.createElement("DIV");
 			var sensorHeader = document.createElement("HEADER");
 			var sensorTempSpan = document.createElement("SPAN");
@@ -100,11 +102,6 @@ Module.register("MMM-SensorTemps", {
 		}
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
-	},
-	
-	// Override notification handler.
-	notificationReceived: function (notification, payload, sender) {
-		var self = this;
 	},
 	
 	// Schedule next update

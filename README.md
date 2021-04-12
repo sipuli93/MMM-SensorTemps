@@ -15,7 +15,7 @@ var config = {
              module: "MMM-SensorTemps",
              position: "bottom_center",
              config: {
-                endpoint: "http://<ip>:<port>",
+                ruuvitagRestGatewayAddr: "http://<ip>:<port>",
                 sensors: [
                     {
                         mac: "<mac address>",
@@ -32,5 +32,5 @@ var config = {
 
 | Option           | Description
 |----------------- |-----------
-| `endpoint`        | *Required* Full url pointing to sensor in rest api. Example `http://<ip>:<port>`
+| `ruuvitagRestGatewayAddr`        | *Required* Full url pointing to sensor in rest api. Example `http://<ip>:<port>`
 | `sensors`        | *Required* List of sensors. Mac address and name.
