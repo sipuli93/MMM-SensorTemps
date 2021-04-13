@@ -5,18 +5,13 @@
  * MIT Licensed.
  *
  */
-.sidebyside {
+.flex-row {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
 }
-.blinking{
-  animation:blinkingText 1.2s infinite;
-}
-@keyframes blinkingText{
-  0%{     color: #fff; }
-  49%{    color: #fff; }
-  60%{    color: transparent; }
-  99%{    color: transparent; }
-  100%{   color: #ff; }
+.flex-column {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
 }
