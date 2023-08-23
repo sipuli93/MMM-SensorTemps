@@ -26,7 +26,8 @@ Module.register("MMM-SensorTemps", {
 				temperature: NaN,
 				humidity: NaN,
 				header: this.config.sensors[i].name,
-				oudoorNotification: typeof this.config.sensors[i].sendAsOutdoorNotification !== 'undefined' ?  this.config.sensors[i].sendAsOutdoorNotification : false
+				oudoorNotification: typeof this.config.sensors[i].sendAsOutdoorNotification !== 'undefined' ?  this.config.sensors[i].sendAsOutdoorNotification : false,
+				hideIfTempUnder: typeof this.config.sensors[i].hideIfTempUnder !== 'undefined' ?  this.config.sensors[i].hideIfTempUnder : -1000
 			};
 		};
 		this.queryURL = this.config.ruuvitagRestGatewayAddr + "/ruuvitags?";
@@ -48,23 +49,25 @@ Module.register("MMM-SensorTemps", {
 		for (var sensor in this.sensors){
 			if (! Object.is(this.sensors[sensor].temperature,NaN)){
 				if (! this.sensors[sensor].oudoorNotification){
-					var sensorWrapper = document.createElement("DIV");
-					sensorWrapper.className = "flex-column";
-					var sensorHeader = document.createElement("HEADER");
-					var sensorTempSpan = document.createElement("SPAN");
-					var sensorHumiditySpan = document.createElement("SPAN");
-					var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
-					var sensorTemp = document.createTextNode(this.roundValue(this.sensors[sensor].temperature) + degreeLabel + "C");
-					var sensorHumidity = document.createTextNode(this.sensors[sensor].humidity.toFixed(0) + "%");
-					sensorTempSpan.className = "bright regular";
-					sensorHumiditySpan.className = "bright regular";
-					sensorTempSpan.appendChild(sensorTemp);
-					sensorHumiditySpan.appendChild(sensorHumidity);
-					sensorHeader.appendChild(sensorHeaderText);
-					sensorWrapper.appendChild(sensorHeader);
-					sensorWrapper.appendChild(sensorTempSpan);
-					sensorWrapper.appendChild(sensorHumiditySpan);
-					wrapper.appendChild(sensorWrapper);
+					if (this.sensors[sensor].hideIfTempUnder < this.sensors[sensor].temperature){
+						var sensorWrapper = document.createElement("DIV");
+						sensorWrapper.className = "flex-column";
+						var sensorHeader = document.createElement("HEADER");
+						var sensorTempSpan = document.createElement("SPAN");
+						var sensorHumiditySpan = document.createElement("SPAN");
+						var sensorHeaderText = document.createTextNode(this.sensors[sensor].header);
+						var sensorTemp = document.createTextNode(this.roundValue(this.sensors[sensor].temperature) + degreeLabel + "C");
+						var sensorHumidity = document.createTextNode(this.sensors[sensor].humidity.toFixed(0) + "%");
+						sensorTempSpan.className = "bright regular";
+						sensorHumiditySpan.className = "bright regular";
+						sensorTempSpan.appendChild(sensorTemp);
+						sensorHumiditySpan.appendChild(sensorHumidity);
+						sensorHeader.appendChild(sensorHeaderText);
+						sensorWrapper.appendChild(sensorHeader);
+						sensorWrapper.appendChild(sensorTempSpan);
+						sensorWrapper.appendChild(sensorHumiditySpan);
+						wrapper.appendChild(sensorWrapper);
+					}
 				} else {
 					this.sendNotification("OUTDOOR_TEMPERATURE", this.sensors[sensor].temperature);
 					this.sendNotification("OUTDOOR_HUMIDITY", this.sensors[sensor].humidity);

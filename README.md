@@ -20,7 +20,8 @@ var config = {
                     {
                         mac: "<mac address>",
                         name: "<sensor name>",
-			sendAsOutdoorNotification: false
+			sendAsOutdoorNotification: false,
+			hideIfTempUnder: -1000
                     },
                 ]
              }
@@ -36,3 +37,4 @@ var config = {
 | `ruuvitagRestGatewayAddr` | *Required* Full url pointing to sensor in rest api. Example `http://<ip>:<port>`
 | `sensors` | *Required* List of sensors. Mac address and name.
 | `sendAsOutdoorNotification` | *Optional* false is default. When set to true, sensors temperature and humidity will be sended via notification to other modules (OUTDOOR_TEMPERATURE and OUTROOD_HUMIDITY)
+| `hideIfTempUnder` | *Optional* -1000 is default. Treshold for showing/hiding sensor. Ex. for sauna, no need to show temperature if not hot.
