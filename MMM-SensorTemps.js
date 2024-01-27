@@ -15,7 +15,7 @@ Module.register("MMM-SensorTemps", {
 		animationSpeed: 400
 	},
 
-	requiresVersion: "2.1.0", // Required version of MagicMirror
+	requiresVersion: "2.26.0", // Required version of MagicMirror
 
 	start: function() {
 		Log.info("Starting module: " + this.name);
