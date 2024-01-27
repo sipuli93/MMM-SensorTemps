@@ -69,8 +69,10 @@ Module.register("MMM-SensorTemps", {
 						wrapper.appendChild(sensorWrapper);
 					}
 				} else {
-					this.sendNotification("OUTDOOR_TEMPERATURE", this.sensors[sensor].temperature);
-					this.sendNotification("OUTDOOR_HUMIDITY", this.sensors[sensor].humidity);
+					this.sendNotification("CURRENT_WEATHER_OVERRIDE", {
+						temperature: this.sensors[sensor].temperature,
+						humidity: this.sensors[sensor].humidity
+					} );
 				}
 			}
 		}
