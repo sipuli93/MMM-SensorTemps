@@ -15,3 +15,7 @@
   flex-flow: column;
   justify-content: space-evenly;
 }
+.ruuvitag-status-icon {
+  font-size: x-large;
+  align-self: center;
+}

@@ -9,10 +9,11 @@
 
 Module.register("MMM-SensorTemps", {
 	defaults: {
-		initialLoadDelay: 1000,
-		retryDelay: 10 * 1000, //10sec
-		updateInterval: 60 * 1000, //1min
-		animationSpeed: 400
+		initialLoadDelay: 1000 * 10,	//10sec
+		retryDelay: 1000 * 10,		//10sec
+		updateInterval: 1000 * 60 * 5,	//5min
+		animationSpeed: 400,
+		batteryVlow: 2500
 	},
 
 	requiresVersion: "2.26.0", // Required version of MagicMirror
@@ -26,6 +27,8 @@ Module.register("MMM-SensorTemps", {
 				temperature: NaN,
 				humidity: NaN,
 				header: this.config.sensors[i].name,
+				batteryV: NaN,
+				batteryVlow: typeof this.config.sensors[i].batteryVlow !== 'undefined' ?  this.config.sensors[i].batteryVlow : this.config.batteryVlow,
 				oudoorNotification: typeof this.config.sensors[i].sendAsOutdoorNotification !== 'undefined' ?  this.config.sensors[i].sendAsOutdoorNotification : false,
 				hideIfTempUnder: typeof this.config.sensors[i].hideIfTempUnder !== 'undefined' ?  this.config.sensors[i].hideIfTempUnder : -1000
 			};
@@ -64,11 +67,17 @@ Module.register("MMM-SensorTemps", {
 						sensorHumiditySpan.appendChild(sensorHumidity);
 						sensorHeader.appendChild(sensorHeaderText);
 						sensorWrapper.appendChild(sensorHeader);
+						if (this.sensors[sensor].batteryV < this.sensors[sensor].batteryVlow){
+							var sensorBatterySpan = document.createElement("SPAN");
+							sensorBatterySpan.className = "fas fa-fw fa-battery-quarter ruuvitag-status-icon";
+							sensorWrapper.appendChild(sensorBatterySpan);
+						}
 						sensorWrapper.appendChild(sensorTempSpan);
 						sensorWrapper.appendChild(sensorHumiditySpan);
 						wrapper.appendChild(sensorWrapper);
 					}
 				} else {
+					Log.log("Sending current weather override notification.");
 					this.sendNotification("CURRENT_WEATHER_OVERRIDE", {
 						temperature: this.sensors[sensor].temperature,
 						humidity: this.sensors[sensor].humidity
@@ -118,6 +127,7 @@ Module.register("MMM-SensorTemps", {
 		for (i = 0; i < data.ruuvitags.length; i++){
 			this.sensors[data.ruuvitags[i].mac].temperature = data.ruuvitags[i].temperature;
 			this.sensors[data.ruuvitags[i].mac].humidity = data.ruuvitags[i].humidity;
+			 this.sensors[data.ruuvitags[i].mac].batteryV = data.ruuvitags[i].battery;
 		}
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
