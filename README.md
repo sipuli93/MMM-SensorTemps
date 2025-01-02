@@ -40,5 +40,4 @@ var config = {
 | `sensors` | *Required* List of sensors. Mac address and name.
 | `sendAsOutdoorNotification` | *Optional* false is default. When set to true, sensors temperature and humidity will be sended via notification (CURRENT_WEATHER_OVERRIDE) to other modules, this overdrives current temperature and humidity in default weather module.
 | `hideIfTempUnder` | *Optional* -1000 is default. Treshold for showing/hiding sensor. Ex. for sauna, no need to show temperature if not hot.
-| `batteryVlow` | *Optional* 2500 is default. Shows low battery icon if Ruuvitags battery voltage drops below given mV value. Can be assigned globally under 'config' or per sensor under 
-sensors'. Guideline for low battery treshold is found at the end of [Ruuvitag battery change guide](https://ruuvi.com/ruuvitag-battery-and-how-to-change/).
+| `batteryVlow` | *Optional* 2500 is default. Shows low battery icon if Ruuvitags battery voltage drops below given mV value. Can be assigned globally under 'config' or per sensor under sensors'. Guideline for low battery treshold is found at the end of [Ruuvitag battery change guide](https://ruuvi.com/ruuvitag-battery-and-how-to-change/).
